@@ -1,18 +1,21 @@
 package com.wellsfargo.counselor.entity;
 
-
 import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class Advisor {
+public class Client {
 
     @Id
-    @GeneratedValue()
-    private long advisorId;
+    @GeneratedValue
+    private long clientId;
 
-    @OneToMany(mappedBy = "advisor")
-    private List<Client> clients;
+    @OneToMany(mappedBy = "client")
+    private List<Portfolio> portfolios;
+
+    @ManyToOne
+    @JoinColumn(name="advisorId", nullable=false)
+    private Advisor advisorId;
 
     @Column(nullable = false)
     private String firstName;
@@ -29,11 +32,11 @@ public class Advisor {
     @Column(nullable = false)
     private String email;
 
-    protected Advisor() {
+    protected Client() {
 
     }
 
-    public Advisor(String firstName, String lastName, String address, String phone, String email) {
+    public Client(String firstName, String lastName, String address, String phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -41,17 +44,30 @@ public class Advisor {
         this.email = email;
     }
 
-    public Long getAdvisorId() {
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public Advisor getAdvisor() {
         return advisorId;
     }
 
-    public List<Client> getClients() {
-        return clients;
+    public void setAdvisor(Advisor advisor) {
+        this.advisorId = advisor;
     }
 
-    public void setClients(List<Client> clients) {
-        this.clients = clients;
+    public List<Portfolio> getPortfolios() {
+        return portfolios;
     }
+
+    public void setPortfolios(List<Portfolio> portfolios) {
+        this.portfolios = portfolios;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -91,4 +107,6 @@ public class Advisor {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }
